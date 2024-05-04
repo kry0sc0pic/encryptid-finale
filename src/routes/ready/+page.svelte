@@ -286,7 +286,7 @@
         <h2 class="font-sans text-4xl mt-4 mb-4">you're all set</h2>
         <button class="relative z-20 mt-4 btn btn-wide btn-primary" on:click={async ()=>await open("https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20240515T183000Z%2F20240515T184500Z&details=&location=&text=encryptid%20finale%20kickoff")}>add kickoff to calendar</button>
         <button class="relative z-20 mt-4 btn btn-wide btn-accent" on:click={async ()=>await open("https://discord.gg/YaMxYCpf3V")}>join discord</button>
-        <button class="relative z-20 mt-4 btn btn-wide btn-secondary" on:click={leaveTeam}>leave team</button>
+        <button class="relative z-20 mt-4 btn btn-wide btn-secondary" on:click={async () => await goto('/team')}>view team</button>
 
     </center>
     {/if}
