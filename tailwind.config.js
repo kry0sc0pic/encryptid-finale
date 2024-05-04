@@ -8,7 +8,13 @@ export default {
   },
   plugins: [require('daisyui'),aspectRatio,addVariablesForColors],
   daisyui: {
-    themes: ['forest','black']
+    themes: [{
+      sunset: {
+        ...require("daisyui/src/theming/themes")["sunset"],
+        "base-100": "#000000",
+        "primary": "#0CA5E9"
+      }
+    }],
   }
 }
 

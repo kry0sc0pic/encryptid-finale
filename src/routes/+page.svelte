@@ -15,13 +15,13 @@
             </p>
         </Countdown>
         <h2
-                class="relative z-10 bg-gradient-to-b from-neutral-200 to-neutral-600 bg-clip-text text-center font-sans text-lg font-bold text-transparent md:text-7xl"
+                class="relative z-10 bg-gradient-to-b from-neutral-200 to-neutral-600 bg-clip-text text-center font-sans text-7xl font-bold text-transparent"
         >
-           The Final Act
+           the final act
         </h2>
         <p></p>
         <p class="relative z-10 mx-auto my-2 max-w-lg text-center text-sm text-neutral-500">
-           Welcome the finale of EncryptID. We are excited to have you here. Get ready to experience riddliest of riddles and the dankest of memes.
+           welcome the finale of encryptID. we are excited to have you here. get ready to experience twistiest of riddles and the dankest of memes.
         </p>
 
     </div>
@@ -30,11 +30,10 @@
         <div>
             <Button
                     borderRadius="0.75rem"
-
                     className="bg-white-300 text-white border-slate-800 text-sm font-bold"
-                    onClick={() => goto('/ready')}
+                    onClick={()=>window.location.href = "/ready"}
             >
-                Let's Go
+                let's go
             </Button>
         </div>
     </div>

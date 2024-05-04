@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { cn } from '$lib/utils/cn';
+    import { cn } from '@/utils';
     import { Motion } from 'svelte-motion';
 
     export let className: string | undefined = undefined;
