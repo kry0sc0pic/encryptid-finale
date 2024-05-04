@@ -71,6 +71,17 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
         await transaction.update(userIndexRef,data4);
         existingTeamCodes[teamCode] = teamID;
         existingTeamNames.add(teamName);
+        let teamcount = (await adminDB.collection('teams').count().get()).data().count;
+        try{
+            await fetch(process.env.WEBHOOK || 'http://example.com',{
+                method: "POST",
+                body: JSON.stringify({
+                    "content": "**New Team**\nName: "+teamName+"\nTeam Count: "+teamcount
+                })
+            });
+        } catch (e){
+            console.error(e);
+        }
     });
     return json({success: true});
 

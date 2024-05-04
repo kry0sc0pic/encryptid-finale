@@ -48,6 +48,17 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
                 await transaction.update(adminDB.collection('index').doc('userIndex'),{
                     [locals.userID!]: null
                 });
+                let usercount = (await adminDB.collection('users').count().get()).data().count;
+                try{
+                    await fetch(process.env.WEBHOOK || 'http://example.com',{
+                        method: "POST",
+                        body: JSON.stringify({
+                            "content": "**New User**\nName: "+first+" "+last+"\nUsername: "+username+"\nUser Count: "+usercount
+                        })
+                    });
+                } catch (e){
+                    console.error(e);
+                }
 
             });
             return json({success: true});
