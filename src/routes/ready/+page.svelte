@@ -31,7 +31,6 @@
 
      const getAccountStateFromStatCode = (loc)=>{
         const code: number = (loc.userID === null ? 0 : 1) + (loc.userExists === false ? 0 : 1) + (loc.userTeam === null  || loc.userTeam === undefined? 0 : 1);
-        console.log("Code Val",code);
         if(code === 3) return AccountState.DONE;
         if(code === 1) return AccountState.USERNAME_NAME;
         if(code === 2) return AccountState.TEAM_SELECT;
@@ -140,24 +139,29 @@
     }
 
     async function updateNameUsername(){
+        loading = true;
         console.log(username, firstname, lastname)
         if(username === "" || firstname === "" || lastname === ""){
-            alert("Please fill in all the fields.")
-            return;
+           sendErrorToast("Required Fields","Please fill all the fields.")
+
         }
-        const r = await fetch("/api/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, first: firstname, last: lastname }),
-        });
-        if(r.status === 429){
-            // alert("Username already exists. Please try another one.")
-            sendErrorToast("Username Taken","Please try a different one");
-        } else {
-            await invalidateAll();
+       else {
+            const r = await fetch("/api/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, first: firstname, last: lastname }),
+            });
+            if(r.status === 429){
+                // alert("Username already exists. Please try another one.")
+                sendErrorToast("Username Taken","Please try a different one");
+            } else {
+                sendSuccessToast("Account Created","")
+                await invalidateAll();
+            }
         }
+       loading = false;
     }
 
     async function signoutSSR() {
@@ -207,6 +211,7 @@
        <p class="font-medium mb-4">use your <b>IITM Email ID</b>. <br/>if you don't have one, you can still play but you won't be considered for the prizes.</p>
        <button
                class=" group/btn relative flex h-10 items-center justify-start space-x-2 rounded-md  px-4 font-medium text-black shadow-input bg-zinc-900 shadow-[0px_0px_1px_1px_var(--neutral-800)] w-[50%]" style="z-index: 1;"
+               disabled={isAuthLoading}
                on:click={signInWithGoogle}
        >
            <IconBrandGoogle class="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
@@ -228,12 +233,14 @@
                       <Label htmlFor="firstname">first name</Label>
                       <Input id="firstname" placeholder="gavin" type="text" onInput={(e)=>{
                             firstname = e.target.value.replace(/[^a-zA-Z]/g, '');
+                            e.target.value = firstname;
                       }}/>
                   </div>
                   <div class={'flex w-full flex-col space-y-2'} style="z-index: 1;">
                       <Label htmlFor="lastname">last name</Label>
                       <Input id="lastname" placeholder="belson" type="text" onInput={(e)=>{
                             lastname = e.target.value.replace(/[^a-zA-Z]/g, '');
+                            e.target.value = lastname;
                       }}/>
                   </div>
 
@@ -243,12 +250,14 @@
                       <Label htmlFor="email">username</Label>
                       <Input id="email" placeholder="gavin.belson" type="text" onInput={(e)=>{
                           username = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+                            e.target.value = username;
                       }} />
                   </div>
               </div>
               <button
                       class="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]" style="z-index: 1"
-                        on:click={updateNameUsername}
+                      disabled={loading}
+                      on:click={updateNameUsername}
               >
                   next &rarr;
                   <span
@@ -296,6 +305,9 @@
 <!--<button class="btn" onclick="my_modal_3.showModal()">open modal</button>-->
 <dialog id="create_team_modal" class="modal">
     <div class="modal-box">
+        <form method="dialog">
+            <button disabled={loading} class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
         <h3 class="font-bold text-3xl text-accent mb-4">new team</h3>
         <div class={'flex w-full flex-col space-y-2'} style="z-index: 1;">
             <Label htmlFor="teamname">team name</Label>
@@ -303,7 +315,7 @@
                             teamname = e.target.value.replace(/[^a-zA-Z]/g, '');
                       }}/>
         </div>
-        <button class="btn btn-accent btn-wide mt-4" on:click={async ()=>{
+        <button  class="btn btn-accent btn-wide mt-4" on:click={async ()=>{
             await createTeam();
             document.getElementById('create_team_modal').close();
         }} disabled={loading}>{#if loading}<span class="loading loading-ring loading-lg text-accent"></span>{:else}create{/if}</button>
@@ -312,11 +324,16 @@
 
 <dialog id="join_team_modal" class="modal">
     <div class="modal-box">
+        <form method="dialog">
+            <button disabled={loading} class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
         <h3 class="font-bold text-3xl text-secondary mb-4">join team</h3>
         <div class={'flex w-full flex-col space-y-2'} style="z-index: 1;">
             <Label htmlFor="teamcode">team code</Label>
             <Input id="teamcode" placeholder="abc1234" type="text" onInput={(e)=>{
-                            teamcode = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+                            // 8 char limit
+                            teamcode = e.target.value.replace(/[^a-zA-Z0-9]/g, '').substring(0,8);
+                            e.target.value = teamcode;
                       }}/>
         </div>
         <button class="btn btn-secondary btn-wide mt-4" on:click={async ()=>{

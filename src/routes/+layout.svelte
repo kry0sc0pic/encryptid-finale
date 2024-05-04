@@ -3,10 +3,10 @@
     import {ToastContainer,BootstrapToast} from "svelte-toasts";
     import * as Sentry from "@sentry/svelte";
     Sentry.init({
-        dsn: "https://d920ad8b0752357861f2267bb5a87793@o951814.ingest.us.sentry.io/4507190121660416",
+        dsn: "https://1cc82d6ffb226c1f6844700851ccb2a4@o951814.ingest.us.sentry.io/4507190125199360",
         integrations: [
             Sentry.browserTracingIntegration(),
-            Sentry.replayIntegration(),
+            Sentry.replayIntegration()
         ],
         // Performance Monitoring
         tracesSampleRate: 1.0, //  Capture 100% of the transactions
