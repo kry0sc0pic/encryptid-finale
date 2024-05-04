@@ -1,5 +1,6 @@
 <script lang="ts">
     import "../app.css"
+    import {ToastContainer,BootstrapToast} from "svelte-toasts";
     import * as Sentry from "@sentry/svelte";
     Sentry.init({
         dsn: "https://d920ad8b0752357861f2267bb5a87793@o951814.ingest.us.sentry.io/4507190121660416",
@@ -20,5 +21,8 @@
 </script>
 
 <FirebaseApp {auth} firestore={db} {storage}>
+    <ToastContainer let:data={data}>
+        <BootstrapToast {data} />
+</ToastContainer>
 <slot />
 </FirebaseApp>

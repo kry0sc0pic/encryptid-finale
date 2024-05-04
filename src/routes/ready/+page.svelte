@@ -4,6 +4,7 @@
     export let data;
     import { BackgroundBeams } from '@/components/ui/BackgroundBeams';
     import {Motion} from "svelte-motion";
+    import {sendErrorToast,sendSuccessToast} from '$lib/toast_utils';
     // import {Google} from 'lucide-svelte';
     import { IconBrandGithub, IconBrandGoogle, IconBrandOnlyfans } from '@tabler/icons-svelte';
     import {Label,Input} from '@/components/ui/SignupForm';
@@ -72,28 +73,33 @@
         });
         switch (r.status) {
             case 200:
-                console.log("joined");
+                sendSuccessToast("Team Joined","You're all set!")
                 accState = AccountState.DONE;
                 // await invalidateAll();
                 break;
 
             case 404:
+                sendSuccessToast("Team Not Found","Please check the code and try again.")
                 console.log("team not found");
                 break;
 
             case 419:
+                sendErrorToast("Team Full","Please try another team.")
                 console.log("team is full");
                 break;
 
             case 418:
+                sendErrorToast("Already in this team","You're already in this team.")
                 console.log("already in this team");
                 break;
 
             case 403:
+                sendErrorToast("Already in a team","Leave that team first.")
                 console.log("already in a team");
                 break;
 
             default:
+                sendErrorToast("Something Went Wrong","Please try again later.")
                 console.log("something went wrong");
                 break;
         }
@@ -114,15 +120,19 @@
         switch (r.status) {
             case 200:
                 console.log("created");
+                sendSuccessToast("Team Created","You're all set!")
                 await invalidateAll();
                 break;
             case 429:
+                sendErrorToast("Team Name Taken","Please try a different one");
                 console.log("Team Name is already taken");
                 break;
             case 400:
+                sendErrorToast("Invalid Request","Please check your inputs.");
                 console.log("Invalid Request")
                 break;
             default:
+                sendErrorToast("Something Went Wrong","Please try again later");
                 console.log("Something Went Wrong")
 
         }
@@ -143,7 +153,8 @@
             body: JSON.stringify({ username, first: firstname, last: lastname }),
         });
         if(r.status === 429){
-            alert("Username already exists. Please try another one.")
+            // alert("Username already exists. Please try another one.")
+            sendErrorToast("Username Taken","Please try a different one");
         } else {
             await invalidateAll();
         }
