@@ -13,3 +13,5 @@ vite.config.ts.timestamp-*
 .env.sentry-build-plugin
 
 functions/venv
+# Sentry Config File
+.sentryclirc

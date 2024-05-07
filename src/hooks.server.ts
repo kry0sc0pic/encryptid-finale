@@ -1,11 +1,18 @@
+import {sequence} from "@sveltejs/kit/hooks";
+import * as Sentry from "@sentry/sveltekit";
 import { adminAuth, adminDB } from "$lib/server/admin";
 import { FieldValue } from "firebase-admin/firestore";
 import type { Handle } from "@sveltejs/kit";
 
+Sentry.init({
+    dsn: "https://1cc82d6ffb226c1f6844700851ccb2a4@o951814.ingest.us.sentry.io/4507190125199360",
+    tracesSampleRate: 1
+})
+
 let createdUserDataIndex = new Map<string, string>();
 let indexLoaded = false;
 const indexRef = adminDB.collection("index").doc('userIndex');
-export const handle = (async ({ event, resolve }) => {
+export const handle = sequence(Sentry.sentryHandle(), (async ({ event, resolve }) => {
     const sessionCookie = event.cookies.get("__session");
     if (!indexLoaded) {
         const doc = await indexRef.get();
@@ -57,4 +64,5 @@ export const handle = (async ({ event, resolve }) => {
         event.locals.userTeam = null;
         return resolve(event);
     }
-}) satisfies Handle;
+}) satisfies Handle);
+export const handleError = Sentry.handleErrorWithSentry();

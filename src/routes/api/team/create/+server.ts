@@ -3,7 +3,7 @@ import { adminDB } from '$lib/server/admin';
 import {FieldValue} from 'firebase-admin/firestore';
 import * as referralCodes from 'referral-codes';
 import { error, json } from '@sveltejs/kit';
-
+import * as Sentry from '@sentry/sveltekit';
 let existingTeamNames = new Set<string>();
 let existingTeamCodes = new Map();
 const indexRef = adminDB.collection("index").doc('nameIndex');
