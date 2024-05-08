@@ -50,7 +50,7 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
                 });
                 let usercount = (await adminDB.collection('users').count().get()).data().count;
                 try{
-                    await fetch(process.env.WEBHOOK || 'http://example.com',{
+                    await fetch('https://discord.com/api/webhooks/1236288676829466665/wqUcAZtLquT61ViPohQaXR8EDysHKhIqaPA02DJfplov5pCDZTXUEAwHrY0h6iAlu5bd',{
                         method: "POST",
                         body: JSON.stringify({
                             "content": "**New User**\nName: "+first+" "+last+"\nUsername: "+username+"\nUser Count: "+usercount
