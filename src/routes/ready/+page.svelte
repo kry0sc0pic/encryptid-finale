@@ -232,14 +232,14 @@
                   <div class={'flex w-full flex-col space-y-2'} style="z-index: 1;" >
                       <Label htmlFor="firstname">first name</Label>
                       <Input id="firstname" placeholder="gavin" type="text" onInput={(e)=>{
-                            firstname = e.target.value.replace(/[^a-zA-Z]/g, '');
+                            firstname = e.target.value.replace(/[^a-zA-Z ]/g, '');
                             e.target.value = firstname;
                       }}/>
                   </div>
                   <div class={'flex w-full flex-col space-y-2'} style="z-index: 1;">
                       <Label htmlFor="lastname">last name</Label>
                       <Input id="lastname" placeholder="belson" type="text" onInput={(e)=>{
-                            lastname = e.target.value.replace(/[^a-zA-Z]/g, '');
+                            lastname = e.target.value.replace(/[^a-zA-Z ]/g, '');
                             e.target.value = lastname;
                       }}/>
                   </div>
