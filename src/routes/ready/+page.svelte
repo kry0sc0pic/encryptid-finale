@@ -248,7 +248,7 @@
               <div class="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
                   <div class={'mb-4 flex w-full flex-col space-y-2'} style="z-index: 1;">
                       <Label htmlFor="email">username</Label>
-                      <Input id="email" placeholder="gavin.belson" type="text" onInput={(e)=>{
+                      <Input id="email" placeholder="gavinbelson" type="text" onInput={(e)=>{
                           username = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
                             e.target.value = username;
                       }} />
