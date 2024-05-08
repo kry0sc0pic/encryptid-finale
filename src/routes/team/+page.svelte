@@ -1,12 +1,14 @@
 <script>
     import {invalidateAll} from "$app/navigation";
-    import {sendSuccessToast,sendErrorToast} from "@/toast_utils.js";
+    import {sendSuccessToast,sendErrorToast} from "$lib/toast_utils";
 
     export let data;
     import {Doc} from 'sveltefire';
     import {Button} from "@/components/ui/MovingBorder";
     let clicked = false;
-    let loading = false;
+    let loading = false;``
+    import {remoteConfig} from "$lib/firebase";
+    import {onMount} from "svelte";
     async function leaveTeam (){
         loading = true;
         const r = await fetch('/api/team/leave',{
@@ -26,6 +28,10 @@
         await invalidateAll();
         loading = false;
     }
+    let showLeaveTeam = false;
+    onMount(async () =>{
+        showLeaveTeam = getValue(remoteConfig,"team_changes");
+    });
 </script>
 
 <h2 class="mt-8 bg-gradient-to-br from-slate-300 to-slate-500 bg-clip-text py-4 text-center text-4xl font-medium tracking-tight text-transparent">
@@ -84,8 +90,10 @@
 
             </div>
         </div>
+        {#if showLeaveTeam}
         <button class="btn btn-wide mt-10 btn-outline btn-secondary" disabled={loading} on:click={leaveTeam}>leave team</button>
-    </center>
+            {/if}
+            </center>
 
 
     <span class="loading loading-ring loading-xl" slot="loading "></span>
