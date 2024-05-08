@@ -312,7 +312,8 @@
         <div class={'flex w-full flex-col space-y-2'} style="z-index: 1;">
             <Label htmlFor="teamname">team name</Label>
             <Input id="teamname" placeholder="hooli" type="text" onInput={(e)=>{
-                            teamname = e.target.value.replace(/[^a-zA-Z]/g, '');
+                            teamname = e.target.value.replace(/[^a-zA-Z ]/g, '');
+                            e.target.value = teamname;
                       }}/>
         </div>
         <button  class="btn btn-accent btn-wide mt-4" on:click={async ()=>{

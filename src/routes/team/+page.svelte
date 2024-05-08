@@ -1,5 +1,6 @@
 <script>
     import {invalidateAll} from "$app/navigation";
+    import {sendSuccessToast,sendErrorToast} from "@/toast_utils.js";
 
     export let data;
     import {Doc} from 'sveltefire';
@@ -11,6 +12,17 @@
         const r = await fetch('/api/team/leave',{
             method: "POST"
         });
+        if(r.ok){
+            sendSuccessToast(
+               "Successfully Left",
+                ""
+            );
+        } else {
+            sendErrorToast(
+                "Failed to Leave",
+                ""
+            );
+        }
         await invalidateAll();
         loading = false;
     }
