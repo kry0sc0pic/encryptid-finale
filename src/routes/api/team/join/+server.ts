@@ -72,7 +72,7 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
             userIndexData[locals.userID] = teamID
             await transaction.update(userIndexRef,userIndexData);
             let indexData = {};
-            indexData[`teamcounts.${locals.userID}`] = FieldValue.arrayUnion(locals.userID)
+            indexData[`teamcounts.${inviteCode}`] = FieldValue.arrayUnion(locals.userID)
             await transaction.update(indexRef,indexData);
             locals.userTeam = teamID;
             return json({success: true,teamID});

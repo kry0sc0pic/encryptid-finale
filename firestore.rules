@@ -11,5 +11,8 @@ service cloud.firestore {
     match /teams/{document}{
       allow read: if request.auth.uid != null;
     }
+    match /levels/{document}{
+      allow read,write: if false;
+    }
   }
 }
