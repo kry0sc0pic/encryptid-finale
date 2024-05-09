@@ -9,7 +9,8 @@
         class="relative flex  h-screen  w-full flex-col items-center justify-center rounded-md  px-32 antialiased"
 >
     <div class="mx-auto max-w-2xl p-4">
-        <Countdown from="2024-05-16 00:00:00" dateFormat="DD H:m:s" zone="Asia/Kolkata" let:remaining>
+        <Countdown from="2024-05-16 00:00:00" dateFormat="YYYY-MM-DD H:m:s" zone="Asia/Kolkata" let:remaining>
+
             <p class="relative z-10 mx-auto my-2 max-w-lg text-center font-mono text-sm text-neutral-500">
                 {remaining.days} days, {remaining.hours} hours, {remaining.minutes} minutes, {remaining.seconds} seconds
             </p>
