@@ -1,5 +1,5 @@
 import type { RequestHandler } from '../$types';
-import { adminDB } from '$lib/server/admin';
+import {adminAuth, adminDB} from '$lib/server/admin';
 import {FieldValue} from 'firebase-admin/firestore';
 import { error, json } from '@sveltejs/kit';
 
@@ -61,9 +61,14 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
             const teamRef = adminDB.collection('teams').doc(teamID);
             const userRef = adminDB.collection('users').doc(locals.userID!);
             // docs
-            await transaction.update(teamRef,{
-                members: FieldValue.arrayUnion(locals.userID)
-            });
+            const userRecord = await adminAuth.getUser(locals.userID!);
+            let teamData = {
+                members: FieldValue.arrayUnion(locals.userID),
+            };
+            if(!(userRecord.email || "").endsWith("iitm.ac.in")) {
+                teamData['iitm_verified'] = false;
+            }
+            await transaction.update(teamRef,teamData);
             await transaction.update(userRef,{
                 team: teamID
             });

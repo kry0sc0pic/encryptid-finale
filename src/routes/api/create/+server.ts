@@ -2,6 +2,7 @@ import type { RequestHandler } from './$types';
 import { adminDB } from '$lib/server/admin';
 import {FieldValue} from 'firebase-admin/firestore';
 import { error, json } from '@sveltejs/kit';
+import axios from "axios";
 
 let existingUsernames = new Set<string>();
 const indexRef = adminDB.collection("index").doc('nameIndex');
@@ -50,11 +51,14 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
                 });
                 let usercount = (await adminDB.collection('users').count().get()).data().count;
                 try{
-                    await fetch('https://discord.com/api/webhooks/1236288676829466665/wqUcAZtLquT61ViPohQaXR8EDysHKhIqaPA02DJfplov5pCDZTXUEAwHrY0h6iAlu5bd',{
-                        method: "POST",
-                        body: JSON.stringify({
-                            "content": "**New User**\nName: "+first+" "+last+"\nUsername: "+username+"\nUser Count: "+usercount
-                        })
+                    // await fetch('https://discord.com/api/webhooks/1236288676829466665/wqUcAZtLquT61ViPohQaXR8EDysHKhIqaPA02DJfplov5pCDZTXUEAwHrY0h6iAlu5bd',{
+                    //     method: "POST",
+                    //     body: JSON.stringify({
+                    //         "content": "**New User**\nName: "+first+" "+last+"\nUsername: "+username+"\nUser Count: "+usercount
+                    //     })
+                    // });
+                    if(process.env.WEBHOOK) await axios.post(process.env.WEBHOOK,{
+                        "content": "**New User**\nName: "+first+" "+last+"\nUsername: "+username+"\nUser Count: "+usercount
                     });
                 } catch (e){
                     console.error(e);

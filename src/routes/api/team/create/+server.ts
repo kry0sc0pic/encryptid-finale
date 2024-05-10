@@ -1,9 +1,9 @@
 import type { RequestHandler } from '../$types';
-import { adminDB } from '$lib/server/admin';
+import { adminDB,adminAuth } from '$lib/server/admin';
 import {FieldValue} from 'firebase-admin/firestore';
 import * as referralCodes from 'referral-codes';
 import { error, json } from '@sveltejs/kit';
-import * as Sentry from '@sentry/sveltekit';
+import axios from "axios";
 let existingTeamNames = new Set<string>();
 let existingTeamCodes = new Map();
 const indexRef = adminDB.collection("index").doc('nameIndex');
@@ -41,6 +41,7 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
             })[0].toLowerCase();
         }
         const teamMembers = [locals.userID,];
+        const userRecord = await adminAuth.getUser(locals.userID!);
         let data = {
             created: FieldValue.serverTimestamp(),
             teamName,
@@ -52,6 +53,9 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
             banned: false,
             iitm_verified: false
         };
+        if((userRecord.email || "").endsWith("iitm.ac.in")){
+            data['iitm_verified'] = true;
+        }
         await transaction.set(newTeamRef,data);
         let data2 = {
             team: teamID
@@ -73,11 +77,14 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
         existingTeamNames.add(teamName);
         let teamcount = (await adminDB.collection('teams').count().get()).data().count;
         try{
-            await fetch(process.env.WEBHOOK || 'http://example.com',{
-                method: "POST",
-                body: JSON.stringify({
-                    "content": "**New Team**\nName: "+teamName+"\nTeam Count: "+teamcount
-                })
+            // await fetch(process.env.WEBHOOK || 'http://example.com',{
+            //     method: "POST",
+            //     body: JSON.stringify({
+            //         "content": "**New Team**\nName: "+teamName+"\nTeam Count: "+teamcount
+            //     })
+            // });
+            if(process.env.WEBHOOK) await axios.post(process.env.WEBHOOK,{
+                "content": "**New Team**\nName: "+teamName+"\nTeam Count: "+teamcount
             });
         } catch (e){
             console.error(e);
