@@ -14,8 +14,12 @@ service cloud.firestore {
     match /levels/{document}{
       allow read,write: if false;
     }
-    match /questions/document {
+    match /questions/{document} {
       allow read: if true;
     }
+    match /logs/{document}{
+      allow read,write: if false;
+    }
+
   }
 }

@@ -2,7 +2,6 @@
     import { BackgroundBeams } from '@/components/ui/BackgroundBeams';
     import {Button} from '@/components/ui/MovingBorder'
     import Countdown from 'svelte-countdown/src/index.js'
-    import {goto} from "$app/navigation";
 </script>
 
 <div

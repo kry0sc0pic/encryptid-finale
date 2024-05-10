@@ -72,33 +72,33 @@
         });
         switch (r.status) {
             case 200:
-                sendSuccessToast("Team Joined","You're all set!")
+                sendSuccessToast("team joined","you're all set!")
                 accState = AccountState.DONE;
                 // await invalidateAll();
                 break;
 
             case 404:
-                sendSuccessToast("Team Not Found","Please check the code and try again.")
+                sendSuccessToast("team Not Found","please check the code and try again.")
                 console.log("team not found");
                 break;
 
             case 419:
-                sendErrorToast("Team Full","Please try another team.")
+                sendErrorToast("team Full","please try another team.")
                 console.log("team is full");
                 break;
 
             case 418:
-                sendErrorToast("Already in this team","You're already in this team.")
+                sendErrorToast("already in this team","you're already in this team.")
                 console.log("already in this team");
                 break;
 
             case 403:
-                sendErrorToast("Already in a team","Leave that team first.")
+                sendErrorToast("already in a team","leave that team first.")
                 console.log("already in a team");
                 break;
 
             default:
-                sendErrorToast("Something Went Wrong","Please try again later.")
+                sendErrorToast("something went wrong","please try again later.")
                 console.log("something went wrong");
                 break;
         }
@@ -119,20 +119,20 @@
         switch (r.status) {
             case 200:
                 console.log("created");
-                sendSuccessToast("Team Created","You're all set!")
+                sendSuccessToast("team Created","you're all set!")
                 await invalidateAll();
                 break;
             case 429:
-                sendErrorToast("Team Name Taken","Please try a different one");
-                console.log("Team Name is already taken");
+                sendErrorToast("team name taken","please try a different one");
+                console.log("team Name is already taken");
                 break;
             case 400:
-                sendErrorToast("Invalid Request","Please check your inputs.");
-                console.log("Invalid Request")
+                sendErrorToast("invalid request","please check your inputs.");
+                console.log("invalid request")
                 break;
             default:
-                sendErrorToast("Something Went Wrong","Please try again later");
-                console.log("Something Went Wrong")
+                sendErrorToast("something went wrong","please try again later");
+                console.log("Something went wrong")
 
         }
         loading = false;
@@ -142,7 +142,7 @@
         loading = true;
         console.log(username, firstname, lastname)
         if(username === "" || firstname === "" || lastname === ""){
-           sendErrorToast("Required Fields","Please fill all the fields.")
+           sendErrorToast("required fields","please fill all the fields.")
 
         }
        else {
@@ -155,9 +155,9 @@
             });
             if(r.status === 429){
                 // alert("Username already exists. Please try another one.")
-                sendErrorToast("Username Taken","Please try a different one");
+                sendErrorToast("username taken","please try a different one");
             } else {
-                sendSuccessToast("Account Created","")
+                sendSuccessToast("account Created","")
                 await invalidateAll();
             }
         }
