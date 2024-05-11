@@ -23,7 +23,7 @@ export const load
                     const data = e.data()
                     newData.push({
                         teamName: data.teamName,
-                        score: data.level * 100,
+                        score: (data.level-1) * 100,
                         members: data.members.length,
                         iitm: data.iitm_verified
                     });
