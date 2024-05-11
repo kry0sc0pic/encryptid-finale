@@ -44,6 +44,7 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
         const userRecord = await adminAuth.getUser(locals.userID!);
         let data = {
             created: FieldValue.serverTimestamp(),
+            last_change: FieldValue.serverTimestamp(),
             teamName,
             uid: teamID,
             code: teamCode,
