@@ -2,7 +2,7 @@
 import {adminDB} from "@/server/admin";
 let loaded = false;
 let leaderboard = [];
-let queryDef = adminDB.collection("teams").orderBy("level","desc");
+let queryDef = adminDB.collection("teams").orderBy("iitm_verified","desc").orderBy("level","desc").orderBy("last_change");
 
 export const load
     = (async ({ locals, params }) => {
