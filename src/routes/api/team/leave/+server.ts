@@ -1,7 +1,6 @@
 import type { RequestHandler } from '../$types';
-import { adminDB } from '$lib/server/admin';
+import { adminDB,adminAuth } from '$lib/server/admin';
 import {FieldValue} from 'firebase-admin/firestore';
-import referralCodes from 'referral-codes';
 import { error, json } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
@@ -28,8 +27,16 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
             } else {
                 let data = {
                     owner: newMembers[0],
-                    members: newMembers
+                    members: newMembers,
+                    iitm_verified: true,
                 };
+                for (const id of newMembers) {
+                    const userRecord = await adminAuth.getUser(id);
+                    if(!userRecord.email?.toString().endsWith("iitm.ac.in")){
+                        data.iitm_verified = false;
+                        break;
+                    }
+                }
                 await transaction.update(teamRef,data);
                 let nameIndexData = {}
                 nameIndexData[`teamcounts.${teamData.code}`] = newMembers
@@ -41,8 +48,6 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
             let userIndexData = {};
             userIndexData[locals.userID] = null
             await transaction.update(userIndexRef,userIndexData);
-
-
         });
     }
 
