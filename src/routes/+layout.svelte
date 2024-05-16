@@ -15,7 +15,7 @@
 
     {#if ["/","/leaderboard","/team"].includes($page.url.pathname)}
         <div class="navbar">
-            <a class="btn btn-ghost text-md text-primary" href="/leaderboard"><ArrowUpRight/> leaderboard</a>
+            <a class="btn btn-ghost text-md" class:text-primary={$page.url.pathname==="/leaderboard"} href="/leaderboard"><ArrowUpRight/> leaderboard</a>
             <a class="btn btn-ghost text-md" href="/play" disabled><Disc /> play</a>
         </div>
         {/if}
