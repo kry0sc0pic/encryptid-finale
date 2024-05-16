@@ -5,6 +5,7 @@
     export let data;
     import {Doc} from 'sveltefire';
     import {Button} from "@/components/ui/MovingBorder";
+    import {Hammer} from "lucide-svelte";
     let clicked = false;
     let loading = false;
     async function leaveTeam (){
@@ -85,8 +86,11 @@
             </div>
         </div>
 
+        {#if !data.banned}
         <button class="btn btn-wide mt-10 btn-outline btn-secondary" disabled={loading} on:click={leaveTeam}>leave team</button>
-
+            {:else}
+    <button class="text-xl mt-4 font-bold btn btn-ghost text-secondary" > <Hammer /> your team was banned by an admin</button>
+            {/if}
             </center>
 
 

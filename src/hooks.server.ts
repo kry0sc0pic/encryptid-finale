@@ -10,12 +10,16 @@ Sentry.init({
 })
 
 let createdUserDataIndex = new Map<string, string>();
+let bannedTeams = new Set<string>();
 let indexLoaded = false;
 const indexRef = adminDB.collection("index").doc('userIndex');
+const bannedTeamsQuery = adminDB.collection("teams").where("banned","==",true);
 export const handle = sequence(Sentry.sentryHandle(), (async ({ event, resolve }) => {
     const sessionCookie = event.cookies.get("__session");
     if (!indexLoaded) {
         const doc = await indexRef.get();
+        const qSnap = await bannedTeamsQuery.get();
+        qSnap.docs.forEach((e)=>bannedTeams.add(e.id));
         if (doc.exists) {
             const data = doc.data();
             if (data !== undefined) {
@@ -25,6 +29,10 @@ export const handle = sequence(Sentry.sentryHandle(), (async ({ event, resolve }
         indexRef.onSnapshot((snap)=>{
             const snapData = snap.data();
             if(snapData!== undefined) createdUserDataIndex = new Map<string,string>(Object.entries(snapData));
+        });
+        bannedTeamsQuery.onSnapshot((snap) => {
+            bannedTeams.clear();
+            snap.docs.forEach((e)=>bannedTeams.add(e.id));
         });
         indexLoaded = true;
     }
@@ -41,6 +49,8 @@ export const handle = sequence(Sentry.sentryHandle(), (async ({ event, resolve }
         if (createdUserDataIndex.has(event.locals.userID)) {
             event.locals.userExists = true;
             event.locals.userTeam = createdUserDataIndex.get(event.locals.userID);
+            event.locals.banned = bannedTeams.has(event.locals.userTeam);
+
             return resolve(event);
         } else {
             const docRef = adminDB.collection('users').doc(event.locals.userID);
@@ -51,9 +61,12 @@ export const handle = sequence(Sentry.sentryHandle(), (async ({ event, resolve }
                 createdUserDataIndex.set(event.locals.userID, team);
                 event.locals.userExists = true;
                 event.locals.userTeam = team;
+                event.locals.banned = bannedTeams.has(team);
+
             } else {
                 event.locals.userExists = false;
                 event.locals.userTeam = null;
+                event.locals.banned = false;
             }
             return resolve(event);
         }
@@ -62,6 +75,7 @@ export const handle = sequence(Sentry.sentryHandle(), (async ({ event, resolve }
         event.locals.userID = null;
         event.locals.userExists = false;
         event.locals.userTeam = null;
+        event.locals.banned = false;
         return resolve(event);
     }
 }) satisfies Handle);

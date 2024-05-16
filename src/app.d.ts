@@ -7,6 +7,7 @@ declare global {
 			userID: string | null,
 			userExists: boolean,
 			userTeam: string | null,
+			banned: boolean,
 		}
 		// interface PageData {}
 		// interface PageState {}
