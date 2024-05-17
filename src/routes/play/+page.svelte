@@ -96,7 +96,7 @@
         </button>
         <button class="btn mr-4">
             <Coin/>
-            {(teamData.level || 1) * 10} points
+            {(teamData.level || 1) * 100} points
         </button>
         <button class="btn " on:click={()=>document.getElementById("logsModal").showModal()}>
             <List/>
