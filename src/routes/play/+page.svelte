@@ -53,7 +53,7 @@
         }
         loading = false;
     };
-    console.log(data);
+
 
         const updateComment = ()=>{
             if(currQuestionData === null || currQuestionData === undefined) return;

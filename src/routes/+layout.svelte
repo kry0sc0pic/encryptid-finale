@@ -9,8 +9,8 @@
 </script>
 
 <FirebaseApp {auth} firestore={db} {storage}>
-    <ToastContainer let:data={data2}>
-        <BootstrapToast {data2} />
+    <ToastContainer let:data={data}>
+        <BootstrapToast {data} />
 </ToastContainer>
 
     {#if ["/","/leaderboard","/team"].includes($page.url.pathname)}
