@@ -82,9 +82,9 @@
         <button class="btn btn-square mr-4"   on:click={()=>{
             if(!(currQuestion >= questions.length-1)) currQuestion++;
         }}
-                disabled={currQuestion === questions.length - 1 || !teamData.completed_levels.includes(currQuestionData.uid)}
+                disabled={currQuestion === questions.length - 1 || !(teamData.completed_levels || []).includes(currQuestionData.uid)}
         >
-            {#if !teamData.completed_levels.includes(currQuestionData.uid)}
+            {#if !(teamData.completed_levels || []).includes(currQuestionData.uid)}
                 <Lock/>
                 {:else}
             <ArrowRight/>
