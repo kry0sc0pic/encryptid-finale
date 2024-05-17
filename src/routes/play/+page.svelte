@@ -100,7 +100,7 @@
         </button>
         <button class="btn " on:click={()=>document.getElementById("logsModal").showModal()}>
             <List/>
-            View Logs
+            Prev Answers
         </button>
     </div>
 
