@@ -39,7 +39,7 @@ export const POST: RequestHandler = async ({ request ,cookies,locals}) => {
         const teamDoc = await teamRef.get();
         if(!teamDoc.exists) return error(500,"Something went wrong");
         const teamData = teamDoc.data();
-        let completedLevels: Array<string> = teamData['completed_levels'];
+        let completedLevels: Array<string> = teamData['completed_levels'] || [];
         console.log(`completedLevels ${completedLevels} ${typeof completedLevels}`);
         if(completedLevels.includes(questionId)) return json({
             correct: true
