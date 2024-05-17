@@ -1,5 +1,14 @@
 <script lang="ts">
-    import {ArrowLeft, ArrowRight, CheckCircleIcon, CircleDashed, Lock} from "lucide-svelte";
+    import {
+        ArrowLeft,
+        ArrowRight,
+        CheckCircleIcon,
+        CircleDashed,
+        CircleXIcon,
+        CrossIcon,
+        List,
+        Lock
+    } from "lucide-svelte";
     import {Doc} from "sveltefire";
     import Coin from "@tabler/icons-svelte/IconCoin.svelte";
     import Affiliate from "@tabler/icons-svelte/IconAffiliate.svelte";
@@ -83,9 +92,13 @@
             <Affiliate/>
             {teamData.teamName}
         </button>
-        <button class="btn ">
+        <button class="btn mr-4">
             <Coin/>
             {(teamData.level || 1) * 10} points
+        </button>
+        <button class="btn " on:click={()=>document.getElementById("logsModal").showModal()}>
+            <List/>
+            View Logs
         </button>
     </div>
 
@@ -135,3 +148,21 @@
 
 </Doc>
 
+
+<dialog id="logsModal" class="modal">
+    <div class="modal-box">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <Doc ref={`/logs/${data.locals.userTeam}`} let:data={logData}>
+            <p slot="loading" class="loading"></p>
+            {#each logData.logs as log}
+                {#if log.type === "correct_answer"}
+                <button class="btn btn-ghost"><CheckCircleIcon class="text-success"/> {log.entered}  </button><br/>
+                    {:else}
+                    <button class="btn btn-ghost"><CircleXIcon class="text-secondary"/> {log.entered} </button><br/>
+                    {/if}
+                {/each}
+        </Doc>
+    </div>
+</dialog>

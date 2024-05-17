@@ -17,8 +17,9 @@ service cloud.firestore {
     match /questions/{document} {
       allow read: if true;
     }
-    match /logs/{document}{
-      allow read,write: if false;
+    match /logs/{team}{
+      //      allow read,write: if false;
+      allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.team == (team);
     }
 
   }
