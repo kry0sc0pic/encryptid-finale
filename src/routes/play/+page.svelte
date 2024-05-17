@@ -130,8 +130,8 @@
 
     {#if !(teamData.completed_levels || []).includes(currQuestionData.uid)}
         <div class="w-[50%] mb-4"><Input id="answer" placeholder="piedpiper" type="text" onInput={(e)=>{
-                            answer = e.target.value.replace(/[^a-z0-9]/g, '');
-                            e.target.value = answer;
+                            answer = e.target.value;
+
                       }}/>
             </div>
     <button class="btn btn-wide btn-primary" disabled={loading} on:click={submitAnswer}>
