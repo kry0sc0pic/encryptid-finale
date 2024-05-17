@@ -5,7 +5,7 @@ import {adminDB}  from "@/server/admin";
 let questions = [];
 let loaded = false;
 
-const collectionRef = adminDB.collection("/levels")
+const collectionRef = adminDB.collection("/levels").orderBy("level");
 
 /** @type {import('./$types').PageLoad} */
 export const load
