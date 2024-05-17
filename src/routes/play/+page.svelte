@@ -5,6 +5,8 @@
     import Affiliate from "@tabler/icons-svelte/IconAffiliate.svelte";
     import {Input} from "@/components/ui/SignupForm";
     import {sendErrorToast, sendSuccessToast} from "@/toast_utils";
+    import {onMount} from "svelte";
+    import { browser } from '$app/environment';
 
     let loading = false;
     let answer = "";
@@ -42,8 +44,19 @@
         }
         loading = false;
     };
-
     console.log(data);
+
+        const updateComment = ()=>{
+            if(currQuestionData === null || currQuestionData === undefined) return;
+            if(browser){
+                const e = document.getElementById(";)");
+                e.innerHTML="";
+                e.appendChild(document.createComment(currQuestionData.comment))
+            }
+
+        }
+        $: currQuestionData, updateComment();
+
 </script>
 
 <Doc ref={`/teams/${data.locals.userTeam}`} let:data={teamData}>
@@ -57,7 +70,7 @@
         <a class="btn btn-ghost text-xl" class:text-success={(teamData.completed_levels || []).includes(currQuestionData.uid)}>
             level {questions[currQuestion].level+1}/{questions.length}
         </a>
-        <button class="btn btn-square mr-4"  disabled={currQuestion === questions.length - 1 || !teamData.completed_levels.includes(currQuestionData.uid)} on:click={()=>{
+        <button class="btn btn-square mr-4"   on:click={()=>{
             if(!(currQuestion >= questions.length)) currQuestion++;
         }}>
             {#if !teamData.completed_levels.includes(currQuestionData.uid)}
@@ -80,6 +93,25 @@
 <center>
     <p class="text-sm">question by <b class="text-primary">{currQuestionData.creator}</b></p>
     <p class="text-4xl mb-4">{currQuestionData.prompt}</p>
+    {#if currQuestionData.files.length !== 0}
+    <div>
+        <p class="text-lg font-medium">files</p>
+        {#each currQuestionData.files as f}
+            <span class="link link-primary" on:click={()=>open(f.url)}>{f.name}</span>
+            {/each}
+    </div>
+        {/if}
+    {#if currQuestionData.images.length !== 0}
+        <p class="text-lg font-medium mt-4 mb-2">images</p>
+    <center class="mb-4">
+        <div class="flex justify-center flex-row h-60">
+            {#each currQuestionData.images as i}
+                <img class="mr-2 ml-2 rounded-lg " src={i} />
+
+            {/each}
+        </div>
+    </center>
+        {/if}
 
     {#if !(teamData.completed_levels || []).includes(currQuestionData.uid)}
         <div class="w-[50%] mb-4"><Input id="answer" placeholder="piedpiper" type="text" onInput={(e)=>{
@@ -102,7 +134,4 @@
 </center>
 
 </Doc>
-<div id=";)">
-
-</div>
 
