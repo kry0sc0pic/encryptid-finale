@@ -90,6 +90,10 @@ _make sure to select firestore indexes and security rules_
 firebase deploy --only firestore
 ```
 
+### Discord Webhook (optional)
+you can configure an optional discord webhook to receive messages when new users and teams are created along with the total count. 
+
+To enable it, set the value for `WEBHOOK` to a valid discord webhook in `.env`
 
 ### Additional Configuration
 
