@@ -2,7 +2,7 @@ import { handleErrorWithSentry, replayIntegration, browserTracingIntegration, } 
 import * as Sentry from '@sentry/sveltekit';
 
 Sentry.init({
-  dsn: 'https://1cc82d6ffb226c1f6844700851ccb2a4@o951814.ingest.us.sentry.io/4507190125199360',
+  dsn: '',
   tracesSampleRate: 1.0,
 
   // This sets the sample rate to be 10%. You may want this to be 100% while
@@ -16,7 +16,7 @@ Sentry.init({
   // If you don't want to use Session Replay, just remove the line below:
   integrations: [
       replayIntegration(),
-    browserTracingIntegration(),
+      browserTracingIntegration(),
 
 
 

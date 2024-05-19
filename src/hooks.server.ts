@@ -5,7 +5,7 @@ import { FieldValue } from "firebase-admin/firestore";
 import type { Handle } from "@sveltejs/kit";
 
 Sentry.init({
-    dsn: "https://1cc82d6ffb226c1f6844700851ccb2a4@o951814.ingest.us.sentry.io/4507190125199360",
+    dsn: "",
     tracesSampleRate: 1
 })
 

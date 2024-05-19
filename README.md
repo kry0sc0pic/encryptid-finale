@@ -1,38 +1,102 @@
-# create-svelte
+<center>
+<img src="static/icon.png" height="200">
+</center>
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+# EncryptID Finale Platform
+This platform was used the for the 3rd & Final Edition of EncryptID, an online cryptic hunt based on anime, pop culture and more hosted by the COSMOS Tech Society of IIT Madras.
 
-## Creating a project
+## Key Features
+1. Google Sign In
+2. Team Creation
+3. Answer Logs
+4. Images, Files and Code Comments for levels
+5. Error Logging with Sentry
+6. Disabling progression for non-verified emails
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Tech Stack
+- Web App - **Sveltekit**
+- Backend - **Firebase**
+- Error Logging - **Sentry**
+- Deployment - **Vercel**
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Setup 
+### Firebase
+1. Create a new firebase project and do the following:
+- setup auth with google sign in provider enabled
+- setup cloud firestore
+- setup cloud storage (optional)
 
-# create a new project in my-app
-npm create svelte@latest my-app
+2. Create a new web app
+Firebase will then give you a configuration object. This is your client configuration. Copy this to text file since we'll be needing it later.
+
+3. Create a new service account
+Create a new service account and download the credentials json file
+
+### Web App
+1. Clone the repository
+```
+git clone https://github.com/kry0sc0pic/encryptid-finale.git
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+2. Install Dependencies
+```
+npm install
 ```
 
-## Building
+3. Client Configuration
 
-To create a production version of your app:
+Edit `src/lib/firebase.ts` and replace `{}` with the client configuration from Step 2 of the firebase section.
 
-```bash
-npm run build
+4. Setup Environment Variables
+
+Rename `.env.example` to `.env`. Set the values for the FB variables from the service account credentials you downloaded earlier in  step 3 of the firebase section.
+
+### Sentry
+1. Create a new sentry project with the platform as sveltekit.
+
+2. Go to the project settings and copy the DSN value
+
+3. Edit `src/hooks.client.ts` & `src/hooks.server.ts` and set the dsn value
+
+4. Create a new auth token on your sentry organisation settings
+
+5. Edit `.env` and set this auth token as the value for `SENTRY_AUTH_TOKEN`
+
+### Firestore
+1. Create the following collections/documents with the following data
+
+`/index/userIndex`
+```json
+{"0":null}
+```
+`/index/nameIndex`
+```json
+{
+  "teamcodes": [],
+  "teamcounts": [],
+  "teamnames": [],
+  "usernames": []
+}
 ```
 
-You can preview the production build with `npm run preview`.
+2. Install and setup Firebase CLI
+```
+npm install -g fiirebase-cli
+firebase login
+firebase init
+```
+_make sure to select firestore indexes and security rules_
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+3. Deploy Security Rules and Indexes
+```
+firebase deploy --only firestore
+```
+
+
+### Additional Configuration
+
+If you are planning on using a platform other than vercel to deploy this, go to `svelte.config.js` and change the first import from `adapter-vercel` to `adapter-auto`.
+
+
+## License
+This platform is licensed under the GNU GPL 3.0
