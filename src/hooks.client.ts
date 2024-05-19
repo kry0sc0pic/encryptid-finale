@@ -1,8 +1,9 @@
 import { handleErrorWithSentry, replayIntegration, browserTracingIntegration, } from "@sentry/sveltekit";
 import * as Sentry from '@sentry/sveltekit';
+import {PUBLIC_SENTRY_DSN} from '$env/static/public';
 
 Sentry.init({
-  dsn: '',
+  dsn: PUBLIC_SENTRY_DSN,
   tracesSampleRate: 1.0,
 
   // This sets the sample rate to be 10%. You may want this to be 100% while

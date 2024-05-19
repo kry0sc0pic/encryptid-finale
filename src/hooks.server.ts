@@ -3,9 +3,9 @@ import * as Sentry from "@sentry/sveltekit";
 import { adminAuth, adminDB } from "$lib/server/admin";
 import { FieldValue } from "firebase-admin/firestore";
 import type { Handle } from "@sveltejs/kit";
-
+import {PUBLIC_SENTRY_DSN} from '$env/static/private';
 Sentry.init({
-    dsn: "",
+    dsn: PUBLIC_SENTRY_DSN,
     tracesSampleRate: 1
 })
 

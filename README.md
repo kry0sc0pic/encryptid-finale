@@ -56,11 +56,9 @@ Rename `.env.example` to `.env`. Set the values for the FB variables from the se
 
 2. Go to the project settings and copy the DSN value
 
-3. Edit `src/hooks.client.ts` & `src/hooks.server.ts` and set the dsn value
+3. Create a new auth token on your sentry organisation settings
 
-4. Create a new auth token on your sentry organisation settings
-
-5. Edit `.env` and set this auth token as the value for `SENTRY_AUTH_TOKEN`
+4. Edit `.env` and set this auth token as the value for `SENTRY_AUTH_TOKEN` and set the dsn value for `PUBLIC_SENTRY_DSN`
 
 ### Firestore
 1. Create the following collections/documents with the following data
