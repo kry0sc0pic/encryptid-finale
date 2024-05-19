@@ -99,6 +99,9 @@ To enable it, set the value for `WEBHOOK` to a valid discord webhook in `.env`
 
 If you are planning on using a platform other than vercel to deploy this, go to `svelte.config.js` and change the first import from `adapter-vercel` to `adapter-auto`.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kry0sc0pic/encryptid-finale&type=Date)](https://star-history.com/#kry0sc0pic/encryptid-finale&Date)
 
 ## License
 This platform is licensed under the GNU GPL 3.0
