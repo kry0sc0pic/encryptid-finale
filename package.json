@@ -27,8 +27,8 @@
 	"type": "module",
 	"dependencies": {
 		"@lottiefiles/svelte-lottie-player": "^0.3.1",
-		"@sentry/svelte": "^7.113.0",
-		"@sentry/sveltekit": "^7.113.0",
+		"@sentry/svelte": "^8.33.1",
+		"@sentry/sveltekit": "^8.33.1",
 		"@sentry/vite-plugin": "^2.16.1",
 		"@sveltejs/adapter-vercel": "^5.3.0",
 		"@tabler/icons-svelte": "^3.3.0",
