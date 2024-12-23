@@ -83,7 +83,7 @@ Rename `.env.example` to `.env`. Set the values for the FB variables from the se
 
 2. Install and setup Firebase CLI
 ```
-npm install -g fiirebase-cli
+npm install -g firebase-cli
 firebase login
 firebase init
 ```
